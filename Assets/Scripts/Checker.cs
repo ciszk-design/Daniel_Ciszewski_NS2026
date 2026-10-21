@@ -7,7 +7,7 @@ public class Homework : MonoBehaviour
     public List<GameObject> Objects = new List<GameObject>();
     void Start()
     {
-       CheckObjects();
+        CheckObjects();
     }
 
     void CheckObjects()
@@ -16,16 +16,29 @@ public class Homework : MonoBehaviour
         {
             if (obj != null)
             {
-                if (obj.GetComponent<SpriteRenderer>() != null)
+                SpriteRenderer sprite = obj.GetComponent<SpriteRenderer>();
+                if (sprite != null)
                 {
-                    Debug.Log(obj.name + "to 2D");
+                    Debug2D(sprite);
                 }
-                else if (obj.GetComponent<MeshRenderer>() != null)
+                else
                 {
-                    Debug.Log(obj.name + "to 3D");
+                    Transform trans = obj.transform;
+                    Debug3D(trans);
                 }
             }
-           
-            }
+
         }
     }
+    void Debug2D(SpriteRenderer sprite)
+    {
+        Debug.Log(sprite.gameObject.name + "to 2D (z Debugu2D)");
+    }
+
+    void Debug3D(Transform trans)
+    {
+        Debug.Log(trans.gameObject.name + "to 3D (z Debugu3D)");
+    }
+}
+
+ 
