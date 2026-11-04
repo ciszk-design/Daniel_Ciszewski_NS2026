@@ -1,44 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder.Shapes;
 
 public class Homework : MonoBehaviour
 {
-    public List<GameObject> Objects = new List<GameObject>();
+    public List<GameObject> objects = new List<GameObject>();
+    [SerializeField] public Gradient gradient = new Gradient();
+    public float maxY = 15f;
     void Start()
     {
+        objects.Add(GameObject.Find("1"));
+        objects.Add(GameObject.Find("2"));
+        objects.Add(GameObject.Find("a"));
+        objects.Add(GameObject.Find("b"));
+        objects.Add(GameObject.Find("c"));
+    }
+    void Update()
+    {
         CheckObjects();
+
     }
 
     void CheckObjects()
     {
-        foreach (GameObject obj in Objects)
+        foreach (GameObject obj in objects)
         {
-            if (obj != null)
+
+
+
+
+            if (obj.GetComponent<SpriteRenderer>() != null)
             {
-                SpriteRenderer sprite = obj.GetComponent<SpriteRenderer>();
-                if (sprite != null)
-                {
-                    Debug2D(sprite);
-                }
-                else
-                {
-                    Transform trans = obj.transform;
-                    Debug3D(trans);
-                }
+
+
+                SpriteColor(obj.GetComponent<SpriteRenderer>());
             }
+            else if (obj.GetComponent<MeshRenderer>() != null)
+            {
+
+                Cube(obj.GetComponent<MeshRenderer>().transform);
+            }
+
 
         }
     }
-    void Debug2D(SpriteRenderer sprite)
+    void SpriteColor(SpriteRenderer sprite)
     {
-        Debug.Log(sprite.gameObject.name + "to 2D (z Debugu2D)");
-    }
 
-    void Debug3D(Transform trans)
+        float normalizedY = sprite.transform.position.y / maxY;
+        sprite.color = gradient.Evaluate(normalizedY);
+    }
+    public void Cube(Transform transformCube)
     {
-        Debug.Log(trans.gameObject.name + "to 3D (z Debugu3D)");
+        float currentX = transformCube.position.x;
+        float rotationY = currentX * 36f;
+        float rotationX = currentX * 36f;
+        transformCube.rotation = Quaternion.Euler(rotationX, 0, 0);
     }
 }
-
- 
